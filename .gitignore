@@ -1,3 +1,4 @@
 # Fichiers vpp
 *.lck
 *.bak*
+*.DS_STORE

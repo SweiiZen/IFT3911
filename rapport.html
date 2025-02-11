@@ -215,37 +215,117 @@
     <h3>Diagrammes de séquence logiciel</h3>
     <ol>
         <li>
-            <h4>DS : Vérification</h4>
+            <h4>DS : Vérification (Arman)</h4>
             <img src="images/DM1" width="600px" height="400px" />
         </li>
 
         <li>
-            <h4>DS : Réservation</h4>
+            <h4>DS : Réservation (Min)</h4>
             <img src="images/DM1/DS_logiciel_reservation.png" width="1000px" height="500px" />
         </li>
 
         <li>
-            <h4>DS : Paiement</h4>
+            <h4>DS : Paiement (Shayan)</h4>
             <img src="images/DM1/DS_logiciel_paiement.png" width="800px" height="400px" />
         </li>
     </ol>
 
 
-    <h2>
-        Tâche 3</h2>
-    <p>
-        Voici notre solution pour la tâche 3.
-    </p>
-    <ul>
-        <li>Voici un <a href="">lien</a> vers la solution. <========= TODO </li>
-    </ul>
-    <h2>
-        Tâche 4</h2>
-    <p>
-        Voici notre solution pour la tâche 4.
-    </p>
-    <ul>
-        <li>Voici un <a href="">lien</a> vers la solution. <============ TODO </li>
-    </ul>
+    <h2>Tâche 3 : OCL</h2>
+    <h3>OCL Admin - Contraintes</h3>
+    
+        <div class="constraint">
+            <h4>Identifiants uniques pour Aéroports, Ports, Gares</h4>
+            <pre>context Aeroport
+    inv: Aeroport.allInstances() -> isUnique(ID)</pre>
+        </div>
+
+        <div class="constraint">
+            <h4>Un aéroport/port/gare est identifié par trois lettres uniques à chaque aéroport [OCL]  (1.1.1, 1.2.1, 1.3.1)</h4>
+            <pre>context Aeroport
+    inv: self.ID.oclType() = String implies self.ID.size() = 3</pre>
+        </div>
+
+        <div class="constraint">
+            <h4>La partie alphabétique de l'ID d'un vol est unique à chaque compagnie et la partie numérique est unique à chaque vol au sein de la même compagnie [OCL] </h4>
+            <pre>context CompagnieAerienne 
+    inv: self.liaisons.allInstances() -> forAll(v1, v2 : Vol | v1 <> v2 implies v1.ID.substring(1, 3) <> v2.ID.substring(1, 3))</pre>
+            <pre>context CompagnieAerienne
+    inv: self.liaisons.allInstances() -> forAll(v1, v2: Vol | v1<> v2 implies v1.ID.substring(4, 6) = v2.ID.substring(4, 6))</pre>
+        </div>
+
+        <div class="constraint">
+            <h4>L'aéroport de départ et d'arrivée d'un vol doit être différent [OCL]</h4>
+            <pre>context Vol
+    inv: Vol.allinstances() -> forAll(a : Aeroport | ! a.origine -> includesAll(a.destination))</pre>
+        </div>
+
+        <div class="constraint">
+            <h4>Tous les sièges d'une même section d'un avion/paquebot/train ont le même prix [OCL]  (1.1.5, 1.2.6, 1.3)</h4>
+            <pre>context Section
+    inv: self.places -> forAll(s1, s2 : Siege | s1 <> s2 implies s1.prix = s2.prix)</pre>
+        </div>
+
+        <div class="constraint">
+            <h4>Un itinéraire ne peut pas durer plus de 21 jours [OCL]</h4>
+            <pre>context Itineraire
+    inv: self.date_depart.toInteger() - self.date_arrivee.toInteger() <= 21</pre>
+        </div>
+
+        <div class="constraint">
+            <h4>Chaque itinéraire visite une suite de ports fixes. Le port de départ et d'arrivée doit être le même [OCL] </h4>
+            <pre>context Itineraire
+    inv: Itineraire.allinstances() -> forAll(p : Port | p.origine -> includesAll(p.destination))</pre>
+        </div>
+
+        <div class="constraint">
+            <h4>Un paquebot peut être assigné à plusieurs itinéraires tant qu'ils ne se chevauchent pas [OCL]</h4>
+            <pre>context Itineraire
+    inv: self.transports -> forAll(p1, p2 : Paquebot | p1 = p2 implies p1.date_arrivee.toInteger()  <=  p2.date_depart.toInteger())</pre>
+        </div>
+
+
+
+    <h2>Tâche 4 : Justifications</h2>
+        <h3>Diagramme de classe logiciel</h3>
+
+
+        <h3>Diagramme de paquets</h3>
+            <ol>
+            <h4>RéseauTransport</h4>
+            <p> Ce paquet représentel'ensemble des connexions entre différents points de transport (hubs, liaisons, itinéraires).</p>
+            <ul>
+                <li>"Réseau" indique que plusieurs trajets sont reliés.</li>
+                <li>"Transport" précise qu’il s’agit des déplacements.</li>
+            </ul>
+        
+            <h4>GestionOpérateurs</h4>
+            <p>Ce paquet regroupe les compagnies et opérateurs qui gèrent les moyens de transport.</p>
+            <ul>
+                <li>"Gestion" montre qu'on administre des entités.</li>
+                <li>"Opérateurs" désigne les entreprises de transport comme les compagnies aériennes ou ferroviaires.</li>
+            </ul>
+    
+            <h4>GestionRéservations</h4>
+            <p>Ce paquet concerne les réservations et les interactions avec les clients.</p>
+            <ul>
+                <li>"Gestion" indique l’organisation des réservations et comptes clients.</li>
+                <li>"Réservations" précise que cela concerne la vente et l’attribution des places.</li>
+            </ul>
+        
+            <h4>Transport</h4>
+            <p>Ce paquet contient les moyens de transport eux-mêmes (avions, trains, paquebots).</p>
+            <ul>
+                <li>"Transport" est un terme simple et direct pour désigner les véhicules.</li>
+                <li>Il n’inclut pas les itinéraires ou opérateurs, ce qui évite toute confusion.</li>
+            </ul>
+        
+            <h4>Catalogue</h4>
+            <p>Ce paquet regroupe l’ensemble des offres et trajets disponibles.</p>
+            <ul>
+                <li>"Catalogue"évoque une liste d’options que les utilisateurs peuvent consulter.</li>
+                <li>Il n’implique ni la gestion des opérateurs ni celle des réservations, ce qui le rend clair.</li>
+            </ul>
+            </ol>
 </body>
 </html>
