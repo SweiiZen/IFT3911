@@ -7,15 +7,15 @@
 
 **Membres :**
 
-- **Arman**  
-  - *Matricule* : 202444444  
-  - *Courriel* : [arman@umontreal.ca](mailto:arman@umontreal.ca)  
-  - *Temps investi* : ∞ (à confirmer)
+- **Arman Nunez**  
+  - *Matricule* : 20240160  
+  - *Courriel* : [arman.nunez@umontreal.ca](mailto:arman.nunez@umontreal.ca)  
+  - *Temps investi* : 25h
 
 - **Byungsuk Min**  
   - *Matricule* : 20234231  
   - *Courriel* : [byungsuk.min@umontreal.ca](mailto:byungsuk.min@umontreal.ca)  
-  - *Temps investi* : 3214124123h (à confirmer)
+  - *Temps investi* : 33h
 
 - **Shayan Nicolas Hollet**  
   - *Matricule* : 20146766  
@@ -120,8 +120,8 @@ Tous les détails (diagrammes, contraintes et justifications) sont présentés d
 |----------------------|:-----:|:--------:|:------:|
 | **Analyse**          | 35%   | 35%      | 30%    |
 | **Design**           | 50%   | 25%      | 25%    |
-| **Contraintes**      | 10%   | 55%      | 40%    |
-| **Justifications**   | 40%   | 30%      |  0%    |
+| **Contraintes**      |  0%   | 55%      | 45%    |
+| **Justifications**   | 70%   | 30%      |  0%    |
 
 Pour la répartition détaillée, reportez-vous à la section *Distribution des tâches* dans le [rapport.html](rapport.html).
 
