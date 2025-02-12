@@ -20,15 +20,12 @@
 - **Shayan Nicolas Hollet**  
   - *Matricule* : 20146766  
   - *Courriel* : [shayan.nicolas.hollet@umontreal.ca](mailto:shayan.nicolas.hollet@umontreal.ca)  
-  - *Temps investi* : 0.0000001 h (à confirmer)
+  - *Temps investi* : 20h
 
 **Soumissionnaire :** Shayan Nicolas Hollet
 
 **Lien vers le dépôt GitHub :**  
 [https://github.com/SweiiZen/IFT3911](https://github.com/SweiiZen/IFT3911)
-
-**Télécharger le fichier Visual Paradigm :**  
-[Télécharger VP file](#) <!-- Lien à compléter -->
 
 ---
 
@@ -123,8 +120,8 @@ Tous les détails (diagrammes, contraintes et justifications) sont présentés d
 |----------------------|:-----:|:--------:|:------:|
 | **Analyse**          | 35%   | 35%      | 30%    |
 | **Design**           | 50%   | 25%      | 25%    |
-| **Contraintes**      | 10%   | 55%      | 35%    |
-| **Justifications**   | 40%   | 30%      | 30%    |
+| **Contraintes**      | 10%   | 55%      | 40%    |
+| **Justifications**   | 40%   | 30%      |  0%    |
 
 Pour la répartition détaillée, reportez-vous à la section *Distribution des tâches* dans le [rapport.html](rapport.html).
 
