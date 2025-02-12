@@ -36,9 +36,9 @@
     <p>
         <span style="font-weight: bold;">Nom: </span>Arman <======= TODO
         <br />
-        <span style="font-weight: bold;">Matricule: </span>202444444 <======== TODO
+        <span style="font-weight: bold;">Matricule: </span>20240160 <======== TODO
         <br />
-        <span style="font-weight: bold;">Courriel: </span>arman@umontreal.ca <========= TODO
+        <span style="font-weight: bold;">Courriel: </span>arman.nunez@umontreal.ca <========= TODO
         <br />
         <span style="font-weight: bold;">temps mis: </span> ∞ <-------- TODO
     </p>
@@ -381,42 +381,56 @@
     <h2>Tâche 4 : Justifications</h2>
         <h3>Diagramme de classe logiciel</h3>
 
+            <ul>
+                <li><strong>Deux contrôleurs :</strong> Le choix de mettre deux contrôleurs nous semble logique, car il s'agit d'un logiciel qui se veut être manipulé par deux vues différentes : Admin et Client. Un Client ne peut avoir les mêmes pouvoirs qu'un Admin, et un Admin ne souhaite pas effectuer les mêmes actions qu'un Client, mais plutôt gérer le système dans son ensemble.</li>
+                <br>
+                <li><strong>Distinction entre UserController et Client :</strong> La distinction entre UserController et Client s'est faite selon cette logique ; un utilisateur du logiciel n'est pas forcément un client, et peut simplement être à la recherche de renseignements sur les différentes propositions de voyage de notre application, sans pour autant effectuer de Réservation. En effet, un utilisateur est un client seulement lorsqu'il effectue une Réservation pour une Place, donc c'est à ce moment-là qu'une entité Client est instanciée, et que le UserController peut avoir accès aux informations client de son compte. On peut imaginer qu'un utilisateur deviendrait un client également lorsqu'il se créerait un compte, sans pour autant avoir effectué une réservation, ce qui instancierait également un objet Client. Mais rien ne fut spécifié dans la consigne à ce sujet.</li>
+                <br>
+                <li><strong>Pourquoi un Catalogue ?</strong> Dans notre application, pour effectuer une quelconque action, il faut d'abord passer par un catalogue proposant des Liaisons. C'est donc naturellement que s'inclut cette classe Catalogue dans notre design. Exemple : un client souhaite consulter les vols d'un Aéroport A à un Aéroport B ? Il doit d'abord naviguer à travers la liste d'aéroports de l'application pour trouver l'Aéroport A, puis à travers la liste des aéroports connectés à cet Aéroport A pour trouver Aéroport B, et ce n'est qu'à ce moment qu'il pourra y consulter tous les Vols reliant ces deux aéroports, pour éventuellement faire une réservation parmi ces vols, etc. TOUT passe par des tableaux de données, donc il fait du sens de rassembler tout ça dans une classe Catalogue. L'accès et les pouvoirs d'un Admin et d'un Client sur ce Catalogue seront distincts, et c'est pour ça que deux classes différentes seulement y accèdent : AdminController et UserController.</li>
+                <br>
+                <li><strong>Réservation de place :</strong> C'est beau tout ça, mais… un client veut réserver une Place dans une Liaison. Au vu du diagramme, n'est-ce pas un peu laborieux ? Ne devrions-nous pas passer par une grosse partie des classes du diagramme rien que pour ce faire ? Eh bien oui. Mais, dans un cas réel, c'est comme ça que ça marche. Pour réserver une Place, il faut d'abord nécessairement trouver la Liaison pour laquelle on veut réserver cette place. Rien que pour ça, ça prend au minimum les étapes de l'exemple ci-dessus. Une fois la Liaison trouvée, il faut y sélectionner sa classe/Section, qui dépend du Transport qui se charge de la liaison, et ensuite au sein de cette section, on y réserve sa Place. Est-ce qu'il est possible de raccourcir tout ce trajet vers la réservation, réalistiquement ? Non, car si on faisait cela, le client n'aurait pas toutes les informations entre ses mains pour effectuer une réservation en toute clarté. De plus, une réservation n'est pas une chose qui est censée se faire tant fréquemment, ni tant rapidement. C'est un dur labeur qui a tout son sens.</li>
+                <br>
+                <li><strong>Classe Client :</strong> Et c'est là qu'intervient la classe Client ! Un utilisateur qui est client aura accès à son compte donc à ses réservations, et pourra les consulter facilement et rapidement de par le lien direct. Ainsi, pas besoin de refaire tout le long chemin décrit plus haut pour accéder à ses réservations. Il suffit d'avoir accès au compte avec lequel on a réservé la place : un super shortcut !</li>
+                <br>
+                <li><strong>Héritages :</strong> On peut observer que d'un côté, Vol hérite de Liaison, puis qu'Itinéraire et Trajet héritent de LiaisonEscale qui hérite de Liaison. Simplement parce que les liaisons en train et en paquebot ont en commun les escales, contrairement au cas de Vol. Similairement, Section se divise en seulement deux sous-classes : SectionDisposable et SectionPaquebot. Cette fois, la similarité se fait entre les voyages en avion et en train, qui peuvent avoir une certaine disposition des sièges. Les trains, nécessairement une disposition étroite alors que les avions, tout un panel. Cela s'explique de par la nature des Places. En effet, dans un Paquebot, les sections contiennent des Cabines, et non des Sièges, comme ses deux homologues. C'est pour cela qu'on fait une nouvelle fois la distinction dans l'héritage de Places : impossible de disposer des Cabines selon la spécification de la consigne, puis ces Cabines peuvent contenir plusieurs personnes, contrairement aux Sièges qui sont limités à un seul individu. Pour ce qui est du reste des héritages, même si les différentes sous-classes ne semblent pas avoir tant de différences dans leur rôle au sein du logiciel, d'après la spécification, cela pourrait être amené à changer dans les futures itérations, et il serait plus prudent de les distinguer, pour l'heure.</li>
+            </ul>
+
 
         <h3>Diagramme de paquets</h3>
             <ol>
-            <h4>RéseauTransport</h4>
-            <p> Ce paquet représentel'ensemble des connexions entre différents points de transport (hubs, liaisons, itinéraires).</p>
+            <h4>OrganisationVoyages</h4>
+            <p> Ce paquet représente tout ce qui à rapport avec la gestion des liaisons proposées par notre application.</p>
             <ul>
-                <li>"Réseau" indique que plusieurs trajets sont reliés.</li>
-                <li>"Transport" précise qu’il s’agit des déplacements.</li>
+                <li>"Organisation" indique que les classes qui le compose sont responsables de gérer toutes les liaisons, voyages disponibles.</li>
+                <li>"Voyages" précise qu’il s’agit des déplacements. Ces voyages peuvent parfois contenir plusieurs liaisons, c'est donc un terme plus générique que "liaison".</li>
             </ul>
         
-            <h4>GestionOpérateurs</h4>
-            <p>Ce paquet regroupe les compagnies et opérateurs qui gèrent les moyens de transport.</p>
+            <h4>Controle</h4>
+            <p>Ce paquet regroupe les différentes vues de l'application.</p>
             <ul>
-                <li>"Gestion" montre qu'on administre des entités.</li>
-                <li>"Opérateurs" désigne les entreprises de transport comme les compagnies aériennes ou ferroviaires.</li>
+                <li>"AdminController" pour la vue Admin.</li>
+                <li>"UserController" pour la vue utilisateur/client.</li>
             </ul>
     
-            <h4>GestionRéservations</h4>
-            <p>Ce paquet concerne les réservations et les interactions avec les clients.</p>
+            <h4>Réservations</h4>
+            <p>Ce paquet concerne les réservations effectuées par les clients.</p>
             <ul>
-                <li>"Gestion" indique l’organisation des réservations et comptes clients.</li>
-                <li>"Réservations" précise que cela concerne la vente et l’attribution des places.</li>
+                <li>"Réservations" est assez clair dans son objectif: concentrer les entités qui sont impliquées dans une réservation.</li>
             </ul>
         
-            <h4>Transport</h4>
-            <p>Ce paquet contient les moyens de transport eux-mêmes (avions, trains, paquebots).</p>
+            <h4>Transports</h4>
+            <p>Ce paquet contient les moyens de transport eux-mêmes (avions, trains, paquebots), et la manière dont ils sont composés.</p>
             <ul>
-                <li>"Transport" est un terme simple et direct pour désigner les véhicules.</li>
-                <li>Il n’inclut pas les itinéraires ou opérateurs, ce qui évite toute confusion.</li>
+                <li>"Transport" est un terme simple et direct pour désigner les véhicules, engins.</li>
+                <li>Il n’inclut pas les itinéraires ou opérateurs et se focalise sur la composition, conception de ces engins, ce qui évite toute confusion.</li>
             </ul>
         
-            <h4>Catalogue</h4>
-            <p>Ce paquet regroupe l’ensemble des offres et trajets disponibles.</p>
+            <h4>Data</h4>
+            <p>Ce paquet regroupe l’ensemble des stockeurs de données qui sont utiles à l'application.</p>
             <ul>
-                <li>"Catalogue"évoque une liste d’options que les utilisateurs peuvent consulter.</li>
-                <li>Il n’implique ni la gestion des opérateurs ni celle des réservations, ce qui le rend clair.</li>
+                <li>"Data" évoque bien qu'on y récupère les informations dont on a besoin.</li>
+                <li>Il n’implique aucune gestion de quoi que ce soit, spécifie juste les entités qui contiennent les données des liaisons ce qui le rend clair.</li>
+                <li>Le Catalogue est le point central des données, car il récupère toutes les données stockées dans les aéroports et compagnies.</li>
             </ul>
             </ol>
 </body>
